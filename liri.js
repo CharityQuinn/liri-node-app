@@ -7,10 +7,26 @@ var axios = require("axios");
 var keys = require("./keys.js");
 
 // load spotify and assign it to a variable
-var Spotify=require("node-spotify-api");
+var Spotify = require("node-spotify-api");
+
+var spotify = new Spotify({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+  
+});
+console.log("id  equals " + id + "secret equals " + secret);
+spotify.search({ type: 'track', query: 'I Want it That Way' }, function(err, data) {
+  if (err) {
+    return console.log('Error occurred: ' + err);
+  }
+
+console.log(data); 
+});
+
 console.log("This is value of Spotify " + Spotify);
-var spotify = new Spotify(keys.spotify);
-console.log("this is the lower case spotify " + spotify);
+// var spotify = new Spotify(keys.spotify);
+// console.log("this is the lower case spotify " + spotify);
+
 
 // Load the fs package to read and write
 var fs = require("fs");
@@ -42,10 +58,6 @@ switch (action) {
 }
 
 
-
-
-
-
 // each command should be like this
 //node liri.js concert-this <artist/I Want it That Way;
 
@@ -60,14 +72,14 @@ function spotifyThisSong(value) {
       return console.log(err);
     }
     var output = data.split(",");
-    if(value === undefined) {
+    if (value === undefined) {
       value = "I Want it That Way"
     }
-  
-    var client_id = 'CLIENT_ID'; // Your client id
+
+    var client_id = '6e00397819554dfe8ccad8e00e774755'; // Your client id
     var client_secret = 'CLIENT_SECRET'; // Your secret
     var redirect_uri = 'REDIRECT_URI'; // Your redirect uri
-    GET "https://accounts.spotify.com/authorize?client_id=client_id&response_type=code&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&scope=user-read-private%20user-read-email&state=34fFs29kd09"
+    // GET https://accounts.spotify.com/authorize?client_id=client_id&response_type=code&redirect_uri=https:/&scope=user-read-private%20user-read-email&state=34fFs29kd09"
 
     const play = ({
       spotify_uri,
@@ -81,7 +93,9 @@ function spotifyThisSong(value) {
       getOAuthToken(access_token => {
         fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
           method: 'PUT',
-          body: JSON.stringify({ uris: [spotify_uri] }),
+          body: JSON.stringify({
+            uris: [spotify_uri]
+          }),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${access_token}`
@@ -89,9 +103,11 @@ function spotifyThisSong(value) {
         });
       });
     };
-    
+
     play({
-      playerInstance: new Spotify.Player({ name: "value" }),
+      playerInstance: new Spotify.Player({
+        name: "value"
+      }),
       spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
     });
 
