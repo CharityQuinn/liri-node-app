@@ -37,7 +37,6 @@ var fs = require("fs");
 var action = process.argv[2];
 var value = process.argv[3];
 
-// We will then create a switch-case statement (if-else would also work).
 // The switch-case will direct which function gets run.
 switch (action) {
   case "concert-this":
@@ -60,11 +59,41 @@ switch (action) {
 
 // each command should be like this
 //node liri.js concert-this <artist/I Want it That Way;
-
+// This function will contact BandsInTown to get a concert played called by user
 function concertThis(value) {
   var bandsInTnKey = "7e9d74149cb19a07ef1d023000b73376"
+  var bandsILike = require("./bands.js");
+
+console.log("--------------------------");
+console.log("The list is all bands");
+console.log(bandsILike);
+console.log("--------------------------");
+let object = ""
+for (let key in bandsILike) {
+ object += bandsILike[key]
+   console.log(` ${key} += ${bandsILike[key]}`);
+  console.log(bandsILike.punk)
+}
+// Gets the myBands object from the bands file.
+var bandList = require("./bands.js");
+  
+// Grabs the genre information
+if (process.argv[2]) {
+  var genre = process.argv[2];
 }
 
+for (var key in bandList) {
+
+  // If the genre matches the key then print that band.
+  if (key === genre || genre === undefined) {
+    console.log("A " + key + " band is " + bandList[key] + ".");
+  }
+}
+
+}
+
+
+// This function will contact Spotify in order to play a song
 function spotifyThisSong(value) {
   // if no song play "The Sign" by Ace of Base
   fs.readFile("random.txt", "track", function (err, data) {
@@ -76,12 +105,7 @@ function spotifyThisSong(value) {
       value = "I Want it That Way"
     }
 
-    var client_id = '6e00397819554dfe8ccad8e00e774755'; // Your client id
-    var client_secret = 'CLIENT_SECRET'; // Your secret
-    var redirect_uri = 'REDIRECT_URI'; // Your redirect uri
-    // GET https://accounts.spotify.com/authorize?client_id=client_id&response_type=code&redirect_uri=https:/&scope=user-read-private%20user-read-email&state=34fFs29kd09"
-
-    const play = ({
+       const play = ({
       spotify_uri,
       playerInstance: {
         _options: {
@@ -114,6 +138,9 @@ function spotifyThisSong(value) {
   });
 
 }
+
+
+
 //`node liri.js movie-this '<movie name here>'`
 // that gives you:  * Title of the movie.
 //  * Year the movie came out.
@@ -133,6 +160,7 @@ function movieThis(value) {
   axios.get("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=trilogy").then(
     function (response) {
       console.log("The movie's rating is: " + response.data.imdbRating);
+      console.log("The movie came out: " + response.data.imdbYear);
     }
   );
 }
