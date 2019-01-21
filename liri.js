@@ -6,27 +6,6 @@ var axios = require("axios");
 // link to keys.js and assing a variable to it
 var keys = require("./keys.js");
 
-// load spotify and assign it to a variable
-var Spotify = require("node-spotify-api");
-
-var spotify = new Spotify({
-  id: process.env.SPOTIFY_ID,
-  secret: process.env.SPOTIFY_SECRET
-  
-});
-console.log("id  equals " + id + "secret equals " + secret);
-spotify.search({ type: 'track', query: 'I Want it That Way' }, function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
-
-console.log(data); 
-});
-
-console.log("This is value of Spotify " + Spotify);
-// var spotify = new Spotify(keys.spotify);
-// console.log("this is the lower case spotify " + spotify);
-
 
 // Load the fs package to read and write
 var fs = require("fs");
@@ -37,22 +16,37 @@ var fs = require("fs");
 var action = process.argv[2];
 var value = process.argv[3];
 
+
+// Creation of the log.txt file in order to log my code results
+fs.writeFile("log.txt", "Responses to My Code", function(err) {
+
+  // If the code experiences any errors it will log the error to the console.
+  if (err) {
+    return console.log(err);
+  }
+
+  // Otherwise, it will print: "log.txt was updated!"
+  console.log("log.txt was updated!");
+
+});
+
+
 // The switch-case will direct which function gets run.
 switch (action) {
   case "concert-this":
-    concertThis();
+    concertThis(value);
     break;
 
   case "spotify-this-song":
-    spotifyThisSong();
+    spotifyThisSong(value);
     break;
 
   case "movie-this":
-    movieThis();
+    movieThis(value);
     break;
 
   case "do-what-it-says":
-    doWhatItSays();
+    doWhatItSays(value);
     break;
 }
 
@@ -60,52 +54,92 @@ switch (action) {
 // each command should be like this
 //node liri.js concert-this <artist/I Want it That Way;
 // This function will contact BandsInTown to get a concert played called by user
-function concertThis(value) {
+function concertThis() {
   var bandsInTnKey = "7e9d74149cb19a07ef1d023000b73376"
   var bandsILike = require("./bands.js");
+  value = process.argv[3];
+  axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp")
+    .then(
+      function (response) {
+        console.log("--------------------------");
+        console.log("The list is all bands");
+        console.log(bandsILike);
+        console.log("--------------------------");
+        let object = ""
+        for (let key in bandsILike) {
+          object += bandsILike[key]
+          console.log(` C += ${bandsILike[key]}`);
+          console.log(bandsILike.punk)
+          fs.appendFile("log.txt", `, ${key}`, (err) => {
+            if (err) {
+              return console.log(err);
+            }
+          
+            // Otherwise, it will print: "log.txt was updated!"
+            console.log("log.txt was updated!");
+          })
+        }
 
-console.log("--------------------------");
-console.log("The list is all bands");
-console.log(bandsILike);
-console.log("--------------------------");
-let object = ""
-for (let key in bandsILike) {
- object += bandsILike[key]
-   console.log(` ${key} += ${bandsILike[key]}`);
-  console.log(bandsILike.punk)
-}
-// Gets the myBands object from the bands file.
-var bandList = require("./bands.js");
-  
-// Grabs the genre information
-if (process.argv[2]) {
-  var genre = process.argv[2];
-}
+      }
+    );
+  // Gets the myBands object from the bands file.
+  var bandList = require("./bands.js");
 
-for (var key in bandList) {
-
-  // If the genre matches the key then print that band.
-  if (key === genre || genre === undefined) {
-    console.log("A " + key + " band is " + bandList[key] + ".");
+  // Grabs the genre information
+  if (process.argv[2]) {
+    var genre = process.argv[2];
   }
-}
 
-}
+  for (var key in bandList) {
+
+    // If the genre matches the key then print that band.
+    if (key === genre || genre === undefined) {
+      console.log("A " + key + " band is " + bandList[key] + ".");
+    }
+  }
+
+};
+
+
 
 
 // This function will contact Spotify in order to play a song
-function spotifyThisSong(value) {
+function spotifyThisSong() {
+  const id = process.env.SPOTIFY_ID;
+  const secret = process.env.SPOTIFY_SECRET;
+  value = process.argv[3];
+  // load spotify and assign it to a variable
+  var Spotify = require("node-spotify-api");
+
+  var spotify = new Spotify({
+    id: process.env.SPOTIFY_ID,
+    secret: process.env.SPOTIFY_SECRET
+
+  });
+
+  spotify
+    .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
+    .then(function (data) {
+      console.log(data);
+    })
+    .catch(function (err) {
+      console.error('Error occurred: ' + err);
+    });
+
+  console.log("This is value of Spotify " + spotify);
   // if no song play "The Sign" by Ace of Base
+  console.log("finally arrived in spotifyThisSong");
   fs.readFile("random.txt", "track", function (err, data) {
     if (err) {
       return console.log(err);
     }
     var output = data.split(",");
     if (value === undefined) {
-      value = "I Want it That Way"
+      value = "The Sign";
     }
 
-       const play = ({
+
+    const play = ({
       spotify_uri,
       playerInstance: {
         _options: {
@@ -140,27 +174,33 @@ function spotifyThisSong(value) {
 }
 
 
-
-//`node liri.js movie-this '<movie name here>'`
-// that gives you:  * Title of the movie.
-//  * Year the movie came out.
-//  * IMDB Rating of the movie.
-//  * Rotten Tomatoes Rating of the movie.
-//  * Country where the movie was produced.
-//  * Language of the movie.
-//  * Plot of the movie.
-//  * Actors in the movie.
-
+//`node liri.js movie-this "movie name here"`
 // default move is Mr. Nobody
 function movieThis(value) {
+  console.log("This is value " + value);
   var omdbKey = "8c2420ae"
-  var omdbApi = " http://www.omdbapi.com/?i=tt3896198&apikey=8c2420ae"
-
+  
   // Then run a request with axios to the OMDB API with the movie specified
-  axios.get("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=trilogy").then(
+  axios.get("http://www.omdbapi.com/?t="+ value +"&plot=full&apikey=8c2420ae").then(
     function (response) {
-      console.log("The movie's rating is: " + response.data.imdbRating);
-      console.log("The movie came out: " + response.data.imdbYear);
+      console.log("The movie's rating is: " + response.data.Rated);
+      console.log("The movie came out in this year: " + response.data.Year);
+      console.log("The actors in the movie are " + response.Actors);
+      console.log("The plot of the movie is " + response.Plot);
+      console.log("The language in the film is " + response.Language);
+      console.log("The movie is from " + response.Country);
+      console.log("The movie Rotton Tomato rating is " + response.Ratings);
+      fs.appendFile("log.txt", `, ${response.data.Title}`, (err) => {
+
+        // If the code experiences any errors it will log the error to the console.
+        if (err) {
+          return console.log(err);
+        }
+      
+        // Otherwise, it will print: "log.txt was updated!"
+        console.log("log.txt was updated with "+ response +"!");
+      
+      });
     }
   );
 }

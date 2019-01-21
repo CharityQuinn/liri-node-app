@@ -4,6 +4,7 @@ spotify-this-song,"Better",
 
 concert-this,"",
 movie-this."Mr. Nobody",
-doWhatItSays,""
+do-what-it-says,"Do the Laundry",
+do-what-it-says,"Go food shopping"
 
 
