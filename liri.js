@@ -16,19 +16,23 @@ var fs = require("fs");
 var action = process.argv[2];
 var value = process.argv[3];
 
-
 // Creation of the log.txt file in order to log my code results
-fs.writeFile("log.txt", "Responses to My Code", function (err) {
+var logger = fs.createWriteStream('log.txt', {
+  flags: 'a' // 'a' means appending (old data will be preserved)
+})
 
-  // If the code experiences any errors it will log the error to the console.
-  if (err) {
-    return console.log(err);
-  }
 
-  // Otherwise, it will print: "log.txt was updated!"
-  console.log("log.txt was updated!");
+// fs.writeFile("log.txt", "Responses to My Code", function (err) {
 
-});
+//   // If the code experiences any errors it will log the error to the console.
+//   if (err) {
+//     return console.log(err);
+//   }
+
+//   // Otherwise, it will print: "log.txt was updated!"
+//   console.log("log.txt was updated!");
+
+// });
 
 
 // The switch-case will direct which function gets run.
@@ -97,7 +101,7 @@ function concertThis() {
       console.log("A " + key + " band is " + bandList[key] + ".");
     }
   }
-
+  logger.write(", " + key)
 };
 
 
@@ -170,7 +174,7 @@ function spotifyThisSong() {
     });
 
   });
-
+    logger.write(", " + value)
 }
 
 
@@ -191,47 +195,25 @@ function movieThis(value) {
       console.log("The language in the film is " + response.data.Language);
       console.log("The movie is from " + response.data.Country);
       console.log("Plot: " + response.data.Plot);
-      console.log("The movie Rotton Tomato rating is " + response.data.Ratings[2]);
-      fs.appendFile("log.txt", `, ${response.data.Plot}`, (err) => {
+      console.log("The movie Rotton Tomato rating is " + response.data.Ratings);
 
-        // If the code experiences any errors it will log the error to the console.
-        if (err) {
-          return console.log(err);
-        }
 
-        // Otherwise, it will print: "log.txt was updated!"
-        console.log("log.txt was updated with " + response + "!");
+      logger.write(", " + response.data.Title) // append string to your file
+      logger.write(", " + response.data.Actors) // again
+      logger.write(", " + response.data.Year) // again )
+      //fs.appendFile("log.txt", `, ${response.data.Year}`, (err) => {
 
-      });
-    }
-  );
+      // If the code experiences any errors it will log the error to the console.
+      if (err) {
+        return console.log(err);
+      }
+
+      // Otherwise, it will print: "log.txt was updated!"
+      console.log("log.txt was updated with " + response.data.Year + "!");
+
+    });
 }
 
-// function getMovie(movie) {
-
-//   if (movie === undefined || movie === " ") {
-//     movie = "The Matrix"
-//   };
-
-//   const queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
-//   request(queryUrl, function (error, response, body) {
-//     if (!error && response.statusCode === 200) {
-//       var jsonData = JSON.parse(body);
-
-//       console.log("Title: " + jsonData.Title);
-//       console.log("Year: " + jsonData.Year);
-//       console.log("Rated: " + jsonData.Rated);
-//       console.log("IMDB Rating: " + jsonData.imdbRating);
-//       console.log("Country: " + jsonData.Country);
-//       console.log("Language: " + jsonData.Language);
-//       console.log("Plot: " + jsonData.Plot);
-//       console.log("Actors: " + jsonData.Actors);
-//       // if(!jsonData.Ratings[1]) {
-//       // } else {console.log("Rotten Tomatoes Rating: " + jsonData.Ratings[1].Value)};
-//       console.log("------------------------------------------------------------------");
-//     }
-//   })
-// };
 
 
 function doWhatItSays(value) {
