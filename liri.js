@@ -1,6 +1,10 @@
 require("dotenv").config();
 console.log('dotenv: this is loaded');
 
+// load spotify and assign it to a variable
+var Spotify = require("node-spotify-api");
+
+
 // getting axios going/linked
 var axios = require("axios");
 // link to keys.js and assing a variable to it
@@ -15,6 +19,8 @@ var fs = require("fs");
 // The second will be the track/movie/concert/thing to do that will be added, spotify-this-song, etc.
 var action = process.argv[2];
 var value = process.argv[3];
+
+var spotify = new Spotify(keys);
 
 // Creation of the log.txt file in order to log my code results
 var logger = fs.createWriteStream('log.txt', {
@@ -107,75 +113,96 @@ function concertThis() {
 
 
 
-// This function will contact Spotify in order to play a song---------------
+// This function will contact Spotify in order to play a song--------------------------------
 function spotifyThisSong() {
-  const id = process.env.SPOTIFY_ID;
-  const secret = process.env.SPOTIFY_SECRET;
+
   value = process.argv[3];
-  // load spotify and assign it to a variable
-  var Spotify = require("node-spotify-api");
-
-  var spotify = new Spotify({
-    id: process.env.SPOTIFY_ID,
-    secret: process.env.SPOTIFY_SECRET
-
-  });
+  if (value === undefined || value === " ") {
+    value = "Love"
+  };
 
   spotify
-    .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
-    .then(function (data) {
-      console.log(data);
-    })
-    .catch(function (err) {
-      console.error('Error occurred: ' + err);
-    });
-
-  console.log("This is value of Spotify " + spotify);
-  // if no song play "The Sign" by Ace of Base
-  console.log("finally arrived in spotifyThisSong");
-  fs.readFile("random.txt", "track", function (err, data) {
-    if (err) {
-      return console.log(err);
-    }
-    var output = data.split(",");
-    if (value === undefined) {
-      value = "The Sign";
-    }
+  // .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
+  // .then(function (data) {
+  //   console.log(data);
+  // })
+  // .catch(function (err) {
+  //   console.error('Error occurred: ' + err);
+  // });
 
 
-    const play = ({
-      spotify_uri,
-      playerInstance: {
-        _options: {
-          getOAuthToken,
-          id
-        }
+  spotify.search({
+      type: "track",
+      query: value
+    },
+    function (err, data) {
+      if (err) {
+        console.log("Error occurred: ", err);
+        return;
       }
-    }) => {
-      getOAuthToken(access_token => {
-        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-          method: 'PUT',
-          body: JSON.stringify({
-            uris: [spotify_uri]
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${access_token}`
-          },
-        });
+      var songs = data.tracks.items;
+
+      for (let i = 0; i < songs.length; i++) {
+        console.log("Number: ", i, "/", songs.length);
+        console.log("artist(s): ", songs[i].artists.map(getArtistNames));
+        console.log("song name: ", songs[i].preview_url);
+        console.log("album: ", songs[i].album.name);
+        console.log("-----------------------------------");
+      }
+    }
+  )
+
+};
+
+
+
+
+
+console.log("This is value of Spotify " + spotify);
+// if no song play "The Sign" by Ace of Base
+console.log("finally arrived in spotifyThisSong");
+fs.readFile("random.txt", "track", function (err, data) {
+  if (err) {
+    return console.log(err);
+  }
+  var output = data.split(",");
+  if (value === undefined) {
+    value = "The Sign";
+  }
+
+
+  const play = ({
+    spotify_uri,
+    playerInstance: {
+      _options: {
+        getOAuthToken,
+        id
+      }
+    }
+  }) => {
+    getOAuthToken(access_token => {
+      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          uris: [spotify_uri]
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${access_token}`
+        },
       });
-    };
-
-    play({
-      playerInstance: new Spotify.Player({
-        name: "value"
-      }),
-      spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
     });
+  };
 
+  play({
+    playerInstance: new Spotify.Player({
+      name: "value"
+    }),
+    spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
   });
-    logger.write(", " + value)
-}
+
+});
+logger.write(", " + value)
 
 
 //`node liri.js movie-this "movie name here-------------------------------"`
@@ -195,18 +222,20 @@ function movieThis(value) {
       console.log("The language in the film is " + response.data.Language);
       console.log("The movie is from " + response.data.Country);
       console.log("Plot: " + response.data.Plot);
-      console.log("The movie Rotton Tomato rating is " + response.data.Ratings);
+
+      while (response.data.Ratings) {
+        if ((grandchild() === "Rotten Tomatoes")) {
+          console.log("This might be Rotten Tomatoes " + this);
+        }
+      }
+      // console.log("The movie Rotton Tomato rating is " + response.data.Ratings);
 
 
       logger.write(", " + response.data.Title) // append string to your file
       logger.write(", " + response.data.Actors) // again
       logger.write(", " + response.data.Year) // again )
-      //fs.appendFile("log.txt", `, ${response.data.Year}`, (err) => {
 
-      // If the code experiences any errors it will log the error to the console.
-      if (err) {
-        return console.log(err);
-      }
+
 
       // Otherwise, it will print: "log.txt was updated!"
       console.log("log.txt was updated with " + response.data.Year + "!");
