@@ -4,7 +4,6 @@ console.log('keys: this is loaded');
 exports.spotify = {
   
   id: process.env.SPOTIFY_ID,
-  secret: process.env.SPOTIFY_SECRET,
-  redirect: process.env.SPOTIFY_REDIRECT
-  
+  secret: process.env.SPOTIFY_SECRET
+    
 };

@@ -20,7 +20,14 @@ var fs = require("fs");
 var action = process.argv[2];
 var value = process.argv[3];
 
-var spotify = new Spotify(keys);
+// var spotify = new Spotify(keys);
+// console.log("This is keys for Spotify " + keys);
+var Spotify = require('node-spotify-api');
+ 
+var spotify = new Spotify({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+});
 
 // Creation of the log.txt file in order to log my code results
 var logger = fs.createWriteStream('log.txt', {
@@ -156,17 +163,15 @@ function spotifyThisSong() {
 
 
 
-
-
-console.log("This is value of Spotify " + spotify);
 // if no song play "The Sign" by Ace of Base
 console.log("finally arrived in spotifyThisSong");
-fs.readFile("random.txt", "track", function (err, data) {
+fs.readFile("random.txt", "utf8", function (err, data) {
   if (err) {
     return console.log(err);
   }
   var output = data.split(",");
   if (value === undefined) {
+    console.log(output);
     value = "The Sign";
   }
 
