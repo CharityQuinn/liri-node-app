@@ -20,32 +20,16 @@ var fs = require("fs");
 var action = process.argv[2];
 var value = process.argv[3];
 
-// var spotify = new Spotify(keys);
-// console.log("This is keys for Spotify " + keys);
-var Spotify = require('node-spotify-api');
- 
-var spotify = new Spotify({
-  id: process.env.SPOTIFY_ID,
-  secret: process.env.SPOTIFY_SECRET
-});
+
+
+var spotify = new Spotify(keys.spotify);
+
 
 // Creation of the log.txt file in order to log my code results
 var logger = fs.createWriteStream('log.txt', {
   flags: 'a' // 'a' means appending (old data will be preserved)
 })
 
-
-// fs.writeFile("log.txt", "Responses to My Code", function (err) {
-
-//   // If the code experiences any errors it will log the error to the console.
-//   if (err) {
-//     return console.log(err);
-//   }
-
-//   // Otherwise, it will print: "log.txt was updated!"
-//   console.log("log.txt was updated!");
-
-// });
 
 
 // The switch-case will direct which function gets run.
@@ -73,50 +57,24 @@ switch (action) {
 // This function will contact BandsInTown to get a concert played called by user
 function concertThis() {
   var bandsInTnKey = "7e9d74149cb19a07ef1d023000b73376"
-  var bandsILike = require("./bands.js");
+  //var bandsILike = require("./bands.js");
   value = process.argv[3];
   axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp")
     .then(
       function (response) {
         console.log("--------------------------");
         console.log("The list is all bands");
-        console.log(bandsILike);
+        console.log(response.id);
+        console.log(response.data.venue);
+        console.log(response.data.datetime);
         console.log("--------------------------");
-        let object = ""
-        for (let key in bandsILike) {
-          object += bandsILike[key]
-          console.log(` C += ${bandsILike[key]}`);
-          console.log(bandsILike.punk)
-          fs.appendFile("log.txt", `, ${key}`, (err) => {
-            if (err) {
-              return console.log(err);
-            }
 
-            // Otherwise, it will print: "log.txt was updated!"
-            console.log("log.txt was updated!");
-          })
-        }
 
-      }
-    );
-  // Gets the myBands object from the bands file.
-  var bandList = require("./bands.js");
-
-  // Grabs the genre information
-  if (process.argv[2]) {
-    var genre = process.argv[2];
-  }
-
-  for (var key in bandList) {
-
-    // If the genre matches the key then print that band.
-    if (key === genre || genre === undefined) {
-      console.log("A " + key + " band is " + bandList[key] + ".");
-    }
-  }
-  logger.write(", " + key)
-};
-
+        // Otherwise, it will print: "log.txt was updated!"
+        logger.write("This is the Band " + response.id);
+        console.log("log.txt was updated!");
+      })
+}
 
 
 
@@ -127,15 +85,6 @@ function spotifyThisSong() {
   if (value === undefined || value === " ") {
     value = "Love"
   };
-
-  spotify
-  // .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
-  // .then(function (data) {
-  //   console.log(data);
-  // })
-  // .catch(function (err) {
-  //   console.error('Error occurred: ' + err);
-  // });
 
 
   spotify.search({
@@ -159,13 +108,10 @@ function spotifyThisSong() {
     }
   )
 
-};
 
+ // if no song play "The Sign" by Ace of Base
+  console.log("finally arrived in spotifyThisSong");
 
-
-// if no song play "The Sign" by Ace of Base
-console.log("finally arrived in spotifyThisSong");
-fs.readFile("random.txt", "utf8", function (err, data) {
   if (err) {
     return console.log(err);
   }
@@ -199,15 +145,15 @@ fs.readFile("random.txt", "utf8", function (err, data) {
     });
   };
 
-  play({
-    playerInstance: new Spotify.Player({
-      name: "value"
-    }),
-    spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
-  });
+  // play({
+  //   playerInstance: new Spotify.Player({
+  //     name: "value"
+  //   }),
+  //   spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
+  // });
+  logger.write(", " + value)
+};
 
-});
-logger.write(", " + value)
 
 
 //`node liri.js movie-this "movie name here-------------------------------"`
@@ -251,5 +197,21 @@ function movieThis(value) {
 
 
 function doWhatItSays(value) {
+  fs.readFile("random.txt", "utf8", function(error, data) {
 
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return console.log(error);
+    }
+  
+    //  print the contents of data
+    console.log(data);
+  
+    // Then split it by commas (to make it more readable)
+    var dataArr = data.split(",");
+  
+    // We will then re-display the content as an array for later use.
+    console.log(dataArr);
+  
+  });
 }
