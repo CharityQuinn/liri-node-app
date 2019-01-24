@@ -56,28 +56,35 @@ switch (action) {
 //node liri.js concert-this <artist/I Want it That Way;
 // This function will contact BandsInTown to get a concert played called by user
 function concertThis() {
-  var bandsInTnKey = "7e9d74149cb19a07ef1d023000b73376"
+  
   //var bandsILike = require("./bands.js");
-  value = process.argv[2];
-  axios.get("https://rest.bandsintown.com/get/artists/" + value + "/events?app_id=" + bandsInTnKey)
-    .then( function (response) {
-        console.log("--------------------------");
-        console.log("The list is all bands");
-        console.log(response.id);
-        console.log(response.data.venue);
-        console.log(response.data.datetime);
-        console.log("--------------------------");
+  value = process.argv[3];
+  console.log(value);
+  axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=" + process.env.bandsInTnKey)
+    .then(function (response) {
+      for (i = 0; i < response.data.length; i++) {
+      console.log(value)
+      console.log("--------------------------");
+      console.log("The list is all bands");
+            console.log(response.data[i].venue);
+      console.log(response.data[i].datetime);
+      var eventDate = moment.response.data
+      console.log("--------------------------");
+    }
 
 
-        // Otherwise, it will print: "log.txt was updated!"
-        logger.write("This is the Band " + response.id);
-        console.log("log.txt was updated!");
-      })
+      // Otherwise, it will print: "log.txt was updated!"
+      logger.write("This is the Band " + response.id + "\n");
+      console.log("log.txt was updated!");
+    })
+    .catch(function (error) {
+      console.log("Axios Error: ", error);
+    })
 }
 
 
 
-// This function will contact Spotify in order to play a song--------------------------------
+// This function will contact Spotify in order to play a song ----------------------------------------------------------------------------
 function spotifyThisSong() {
 
   value = process.argv[3];
@@ -108,7 +115,7 @@ function spotifyThisSong() {
   )
 
 
- // if no song play "The Sign" by Ace of Base
+  // if no song play "The Sign" by Ace of Base
   console.log("finally arrived in spotifyThisSong");
 
   if (err) {
@@ -150,7 +157,7 @@ function spotifyThisSong() {
   //   }),
   //   spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
   // });
-  logger.write(", " + value)
+  logger.write(", " + value + "\n")
 };
 
 
@@ -181,9 +188,9 @@ function movieThis(value) {
       // console.log("The movie Rotton Tomato rating is " + response.data.Ratings);
 
 
-      logger.write(", " + response.data.Title) // append string to your file
-      logger.write(", " + response.data.Actors) // again
-      logger.write(", " + response.data.Year) // again )
+      logger.write(", " + response.data.Title + "\n") // append string to your file
+      logger.write(", " + response.data.Actors + "\n") // again
+      logger.write(", " + response.data.Year + "\n") // again )
 
 
 
@@ -196,21 +203,21 @@ function movieThis(value) {
 
 
 function doWhatItSays(value) {
-  fs.readFile("random.txt", "utf8", function(error, data) {
+  fs.readFile("random.txt", "utf8", function (error, data) {
 
     // If the code experiences any errors it will log the error to the console.
     if (error) {
       return console.log(error);
     }
-  
+
     //  print the contents of data
     console.log(data);
-  
+
     // Then split it by commas (to make it more readable)
     var dataArr = data.split(",");
-  
+
     // We will then re-display the content as an array for later use.
     console.log(dataArr);
-  
+
   });
 }
