@@ -1,6 +1,6 @@
 require("dotenv").config();
 console.log('dotenv: this is loaded');
-
+const moment = require("moment");
 // load spotify and assign it to a variable
 var Spotify = require("node-spotify-api");
 
@@ -56,26 +56,26 @@ switch (action) {
 //node liri.js concert-this <artist/I Want it That Way;
 // This function will contact BandsInTown to get a concert played called by user
 function concertThis() {
-  
+
   //var bandsILike = require("./bands.js");
   value = process.argv[3];
   console.log(value);
   axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=" + process.env.bandsInTnKey)
     .then(function (response) {
       for (i = 0; i < response.data.length; i++) {
-      console.log(value)
-      console.log("--------------------------");
-      console.log("The list is all bands");
-            console.log(response.data[i].venue);
-      console.log(response.data[i].datetime);
-      var eventDate = moment.response.data
-      console.log("--------------------------");
-    }
+        console.log(value)
+        console.log("--------------------------")
+        console.log("The list is all bands")
+        console.log(response.data[i].venue)
+        console.log(response.data[i].datetime)
+        time = response.data[i].datetime;
+        var eventDate = moment(time).format('MMMM Do YYYY')
+        console.log("This is the date: " + eventDate)
+        console.log("--------------------------");
+        logger.write("This is the Band venue " + response.data[i].venue + " \n");
+        logger.write("This is the Band venue " + eventDate + " \n");
 
-
-      // Otherwise, it will print: "log.txt was updated!"
-      logger.write("This is the Band " + response.id + "\n");
-      console.log("log.txt was updated!");
+      }
     })
     .catch(function (error) {
       console.log("Axios Error: ", error);
@@ -86,138 +86,91 @@ function concertThis() {
 
 // This function will contact Spotify in order to play a song ----------------------------------------------------------------------------
 function spotifyThisSong() {
-
+  action = process.argv[2];
   value = process.argv[3];
-  if (value === undefined || value === " ") {
-    value = "Love"
-  };
-
-
-  spotify.search({
-      type: "track",
-      query: value
-    },
-    function (err, data) {
-      if (err) {
-        console.log("Error occurred: ", err);
-        return;
-      }
-      var songs = data.tracks.items;
-
-      for (let i = 0; i < songs.length; i++) {
-        console.log("Number: ", i, "/", songs.length);
-        console.log("artist(s): ", songs[i].artists.map(getArtistNames));
-        console.log("song name: ", songs[i].preview_url);
-        console.log("album: ", songs[i].album.name);
-        console.log("-----------------------------------");
-      }
+  if (action === "spotify-this-song") {
+    if (value === undefined || value === "") {
+      value = "Ace of Base"
     }
-  )
 
+    spotify
+      .search({
+        type: 'track',
+        query: value,
+        limit: 1
+      })
+      .then(function (response) {
+         
+            let song = response.tracks.items[0]
+            console.log("artist(s): ", song.album.artists[0].name);
 
-  // if no song play "The Sign" by Ace of Base
-  console.log("finally arrived in spotifyThisSong");
-
-  if (err) {
-    return console.log(err);
-  }
-  var output = data.split(",");
-  if (value === undefined) {
-    console.log(output);
-    value = "The Sign";
-  }
-
-
-  const play = ({
-    spotify_uri,
-    playerInstance: {
-      _options: {
-        getOAuthToken,
-        id
-      }
+            console.log("song name: ", song.name);
+            console.log("The link for the Album is " + song.preview_url);
+            console.log("album: ", song.album.name);
+            logger.write(" " + song.name + " \n");
+            logger.write(" " + song.album.name + " \n ");
+            logger.write(" " + song.preview_url + " \n ");
+            console.log("===================================================================");
+          
+      
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
     }
-  }) => {
-    getOAuthToken(access_token => {
-      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          uris: [spotify_uri]
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${access_token}`
-        },
-      });
-    });
-  };
-
-  // play({
-  //   playerInstance: new Spotify.Player({
-  //     name: "value"
-  //   }),
-  //   spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
-  // });
-  logger.write(", " + value + "\n")
-};
+}  
+   
 
 
 
-//`node liri.js movie-this "movie name here-------------------------------"`
-// default move is Mr. Nobody
-function movieThis(value) {
-  console.log("This is value " + value);
-  var omdbKey = "8c2420ae"
+    //`node liri.js movie-this "movie name here-------------------------------"`
+    // default move is Mr. Nobody
+    function movieThis(value) {
+      console.log("This is value " + value);
+      var omdbKey = "8c2420ae"
 
-  // Then run a request with axios to the OMDB API with the movie specified
-  axios.get("http://www.omdbapi.com/?t=" + value + "&plot=full&apikey=8c2420ae").then(
-    function (response) {
-      console.log("Title: " + response.data.Title);
-      console.log("IMDB Rating: " + response.data.imdbRating);
-      console.log("The movie's rating is: " + response.data.Rated);
-      console.log("The movie came out in this year: " + response.data.Year);
-      console.log("The actors in the movie are " + response.data.Actors);
-      console.log("The language in the film is " + response.data.Language);
-      console.log("The movie is from " + response.data.Country);
-      console.log("Plot: " + response.data.Plot);
+      // Then run a request with axios to the OMDB API with the movie specified
+      axios.get("http://www.omdbapi.com/?t=" + value + "&plot=full&apikey=8c2420ae").then(
+        function (response) {
+          console.log("Title: " + response.data.Title);
+          console.log("IMDB Rating: " + response.data.imdbRating);
+          console.log("The movie's rating is: " + response.data.Rated);
+          console.log("The movie came out in this year: " + response.data.Year);
+          console.log("The actors in the movie are " + response.data.Actors);
+          console.log("The language in the film is " + response.data.Language);
+          console.log("The movie is from " + response.data.Country);
+          console.log("Plot: " + response.data.Plot);
 
-      while (response.data.Ratings) {
-        if ((grandchild() === "Rotten Tomatoes")) {
-          console.log("This might be Rotten Tomatoes " + this);
+          console.log("About to loop through to get Rotton Tomatoes");
+          for (i = 0; i < response.data.Ratings.length; i++) {
+            var tomatoes = response.data.Ratings[i].Value
+            console.log("This might be Rotten Tomatoes " + tomatoes);
+            logger.write(", " + response.data.Title + " \n") // append string to your file
+            logger.write(", " + response.data.Actors + " \n") // again
+            logger.write(", " + response.data.Year + " \n"); // again )
+          }
+        })
+    }
+
+
+
+
+    function doWhatItSays(value) {
+      fs.readFile("random.txt", "utf8", function (error, data) {
+
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+          return console.log(error);
         }
-      }
-      // console.log("The movie Rotton Tomato rating is " + response.data.Ratings);
 
+        //  print the contents of data
+        console.log(data);
 
-      logger.write(", " + response.data.Title + "\n") // append string to your file
-      logger.write(", " + response.data.Actors + "\n") // again
-      logger.write(", " + response.data.Year + "\n") // again )
+        // Then split it by commas (to make it more readable)
+        var dataArr = data.split(",");
 
+        // We will then re-display the content as an array for later use.
+        console.log(dataArr);
 
-
-      // Otherwise, it will print: "log.txt was updated!"
-      console.log("log.txt was updated with " + response.data.Year + "!");
-
-    });
-}
-
-
-
-function doWhatItSays(value) {
-  fs.readFile("random.txt", "utf8", function (error, data) {
-
-    // If the code experiences any errors it will log the error to the console.
-    if (error) {
-      return console.log(error);
+      });
     }
-
-    //  print the contents of data
-    console.log(data);
-
-    // Then split it by commas (to make it more readable)
-    var dataArr = data.split(",");
-
-    // We will then re-display the content as an array for later use.
-    console.log(dataArr);
-
-  });
-}
