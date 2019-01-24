@@ -58,10 +58,9 @@ switch (action) {
 function concertThis() {
   var bandsInTnKey = "7e9d74149cb19a07ef1d023000b73376"
   //var bandsILike = require("./bands.js");
-  value = process.argv[3];
-  axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp")
-    .then(
-      function (response) {
+  value = process.argv[2];
+  axios.get("https://rest.bandsintown.com/get/artists/" + value + "/events?app_id=" + bandsInTnKey)
+    .then( function (response) {
         console.log("--------------------------");
         console.log("The list is all bands");
         console.log(response.id);
