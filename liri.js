@@ -175,15 +175,15 @@ function doWhatItSays() {
     // Then split it by commas (to make it more readable)
     var dataArr = data.split(",");
     
-    for (i = 0; i < dataArr.length; i++){
-     var fxn = dataArr[i];
-     var actName = dataArr[i];
-     logger.write("doWhatItSays retrieved " + fxn + ", " + actName);
-    }
-    
-   
+    for (i = 0; i < dataArr.length; i += 2){
+      var fxn = dataArr[i];
+      var actName = dataArr[i++];
+      (fxn === "spotify-this-song") ? spotifyThisSong(actName) : (fxn === "movie-this") ? movieThis(actName) : (fxn === "concert-this") ? (concertThis(actName)) : (console.log("Error, no more data"))
+      logger.write("doWhatItSays retrieved " + fxn + ", " + actName +" \n");
+     }
+
+
     
   });
-
-
+ 
 }

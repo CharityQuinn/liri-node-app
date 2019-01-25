@@ -39,4 +39,75 @@ The date at the venue is March 16th 2019
 
 doWhatItSays retrieved spotify-this-song, spotify-this-songdoWhatItSays retrieved spotify-this-song, spotify-this-songdoWhatItSays retrieved "I Want it That Way", "I Want it That Way"doWhatItSays retrieved 
 move-this, 
-move-thisdoWhatItSays retrieved "Mr. Nobody", "Mr. Nobody"
+move-thisdoWhatItSays retrieved "Mr. Nobody", "Mr. Nobody"doWhatItSays retrieved spotify-this-song, spotify-this-songdoWhatItSays retrieved "I Want it That Way", "I Want it That Way"doWhatItSays retrieved 
+move-this, 
+move-thisdoWhatItSays retrieved "Mr. Nobody", "Mr. Nobody"doWhatItSays retrieved spotify-this-song, spotify-this-songdoWhatItSays retrieved "I Want it That Way", "I Want it That Way"doWhatItSays retrieved 
+move-this, 
+move-thisdoWhatItSays retrieved "Mr. Nobody", "Mr. Nobody"doWhatItSays retrieved spotify-this-song, spotify-this-song 
+doWhatItSays retrieved "I Want it That Way", "I Want it That Way" 
+doWhatItSays retrieved 
+move-this, 
+move-this 
+doWhatItSays retrieved "Mr. Nobody", "Mr. Nobody" 
+doWhatItSays retrieved spotify-this-song, spotify-this-song 
+doWhatItSays retrieved "Mr. Nobody", "Mr. Nobody" 
+Spotify This retrieved The Sign 
+ The Sign (US Album) [Remastered] 
+  https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=6e00397819554dfe8ccad8e00e774755 
+ doWhatItSays retrieved spotify-this-song, spotify-this-song 
+doWhatItSays retrieved "Mr. Nobody", "Mr. Nobody" 
+Spotify This retrieved The Sign 
+ The Sign (US Album) [Remastered] 
+  https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=6e00397819554dfe8ccad8e00e774755 
+ Concert-this has a venue named Accorhotels Arena 
+The location of the venue is Paris 
+The date at the venue is March 8th 2019 
+Concert-this has a venue named Manchester Arena 
+The location of the venue is Manchester 
+The date at the venue is March 10th 2019 
+Concert-this has a venue named Manchester Arena 
+The location of the venue is Manchester 
+The date at the venue is March 11th 2019 
+Concert-this has a venue named AccorHotels Arena 
+The location of the venue is Paris 
+The date at the venue is March 13th 2019 
+Concert-this has a venue named Microsoft Theater 
+The location of the venue is Los Angeles 
+The date at the venue is March 14th 2019 
+Concert-this has a venue named AccorHotels Arena 
+The location of the venue is Paris 
+The date at the venue is March 15th 2019 
+Concert-this has a venue named AccorHotels Arena 
+The location of the venue is Paris 
+The date at the venue is March 16th 2019 
+Concert-this has a venue named 3Arena 
+The location of the venue is Dublin 
+The date at the venue is March 19th 2019 
+Concert-this has a venue named 3Arena 
+The location of the venue is Dublin 
+The date at the venue is March 21st 2019 
+Concert-this has a venue named 3Arena 
+The location of the venue is Dublin 
+The date at the venue is March 22nd 2019 
+Concert-this has a venue named Resorts World Arena 
+The location of the venue is Birmingham 
+The date at the venue is March 26th 2019 
+
+Movie This retrieved Hidden Figures 
+The actors are Taraji P. Henson, Octavia Spencer, Janelle Monáe, Kevin Costner 
+The year it was made 2016 
+Rotton Tomatoes is 7.8/10 
+
+Movie This retrieved Hidden Figures 
+The actors are Taraji P. Henson, Octavia Spencer, Janelle Monáe, Kevin Costner 
+The year it was made 2016 
+Rotton Tomatoes is 93% 
+
+Movie This retrieved Hidden Figures 
+The actors are Taraji P. Henson, Octavia Spencer, Janelle Monáe, Kevin Costner 
+The year it was made 2016 
+Rotton Tomatoes is 74/100 
+Spotify This retrieved Halo 
+ I AM...SASHA FIERCE 
+  https://p.scdn.co/mp3-preview/3c97985f3736fab6d4abcd2067f346a9b30955fa?cid=6e00397819554dfe8ccad8e00e774755 
+ 
