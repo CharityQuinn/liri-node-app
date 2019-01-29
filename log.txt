@@ -110,4 +110,26 @@ Rotton Tomatoes is 74/100
 Spotify This retrieved Halo 
  I AM...SASHA FIERCE 
   https://p.scdn.co/mp3-preview/3c97985f3736fab6d4abcd2067f346a9b30955fa?cid=6e00397819554dfe8ccad8e00e774755 
- 
+ Spotify This retrieved Rock Lobster 
+ The B-52's 
+  https://p.scdn.co/mp3-preview/9616f8f92c84ea9357283e87ede4fac2f24b130e?cid=6e00397819554dfe8ccad8e00e774755 
+ doWhatItSays retrieved spotify-this-song, spotify-this-song 
+doWhatItSays retrieved "Mr. Nobody", "Mr. Nobody" 
+Spotify This retrieved The Sign 
+ The Sign (US Album) [Remastered] 
+  https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=6e00397819554dfe8ccad8e00e774755 
+ Concert-this has a venue named Kaaboo Festival - AT&T Stadium 
+The location of the venue is Arlington 
+The date at the venue is May 10th 2019 
+Concert-this has a venue named Kaaboo Festival - AT&T Stadium 
+The location of the venue is Arlington 
+The date at the venue is May 11th 2019 
+Concert-this has a venue named Kaaboo Festival - AT&T Stadium 
+The location of the venue is Arlington 
+The date at the venue is May 12th 2019 
+Concert-this has a venue named Opryland Resort - “Nashville Boogie”   
+The location of the venue is Nashville 
+The date at the venue is May 26th 2019 
+Concert-this has a venue named Azkena Rock Festival 
+The location of the venue is Vitoria-gasteiz 
+The date at the venue is June 21st 2019 

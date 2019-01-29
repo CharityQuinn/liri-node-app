@@ -169,7 +169,8 @@ function doWhatItSays() {
     console.log("This is data from random.txt " + data);
     // If the code experiences any errors it will log the error to the console.
     if (error) {
-      return console.log(error);
+      return console.log(error + " I am afraid I can't read the random file at this time.");
+      
     };
 
     // Then split it by commas (to make it more readable)

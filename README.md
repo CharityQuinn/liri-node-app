@@ -9,5 +9,8 @@ I will maintain this project but it is only here with the tremendous help from m
 
 You can access this project by looking at the following screen shots:
 [link to dotenv](./dotenv.docx)
-
+[Link to Concert-this](./spotify-this.docx)
+[Link to Movie-this](./movie-this.docx)
+[Link to DoWhatItSays](./doWhatItSays.docx)
+[Link to ConcertThis](./concert-this.docx)
 
